@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -27,17 +28,18 @@ public class HelloControllerTest {
     }
 
     @Test
-    public void helloDto가_리턴된다() throws Exception {
+    public void hellodto_가리턴된다() throws Exception {
         String name = "hello";
         int amount = 1000;
 
         mvc.perform(
                 get("/hello/dto")
-                    .param("name", name)
-                    .param("amount", String.valueOf(amount)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(name)))
-                .andExpect(jsonPath("$.amount", is(amount)));
-
+                .param("name", name)
+                .param("amount", String.valueOf(amount))
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name", is(name)))
+        .andDo(print())
+        ;
     }
 }
